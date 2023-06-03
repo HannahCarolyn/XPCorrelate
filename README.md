@@ -1,4 +1,4 @@
-#XPCorrelate updated for Premier input and HR-EBSD.
+# HC 2023 updated for Premier input and HR-EBSD.
 
 Warning this branch has been altered such that some of the original functionallity of the code may be buggy.
 
