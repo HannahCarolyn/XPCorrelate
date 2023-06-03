@@ -1,4 +1,4 @@
-function v_plotfig(datastack,resultsdir,ebsdname,saveasfigq)
+function v_plotfig(datastack,resultsdir,ebsdname,xebsdnamebefore,xebsdnameafter,saveasfigq)
 
 %Plot fig - CMM script to plot out the various graphs from the data. 
 try 
@@ -30,6 +30,7 @@ xlabel('\mum')
 ylabel('\mum')
 axis image
 c=colorbar;
+colormap spring
 c.Label.String = 'Hardness (GPa)';
 figname=['Hardness Figure ' ebsdname(1:(max(size(ebsdname)-4)))];
 print(fullfile(resultsdir, figname),'-dpng',resolution)
@@ -54,53 +55,88 @@ figname=['Modulus Figure ' filename(1:(max(size(filename)-4)))];
 print(fullfile(resultsdir, figname),'-dpng',resolution)
 if saveasfigq==1 saveas(gcf,fullfile(resultsdir, figname),'fig') end
 %}
+% 
+% figphi=figure;
+% figphi.Name='Phi';
+% hplot=contourf(datastack.X,datastack.Y,datastack.Phirefl*180/pi(),45,'LineColor','None');
+% title('Registered EBSD map')
+% xlabel('\mum')
+% ylabel('\mum')
+% axis image
+% zlim([0 90])
+% c=colorbar;
+% c.Label.String = 'Declination angle /^{o}';
+% figname=['Phi Figure paper' ebsdname(1:(max(size(ebsdname)-4)))];
+% print(fullfile(resultsdir, figname),'-dpng',resolution)
+% if saveasfigq==1 
+%     saveas(gcf,fullfile(resultsdir, figname),'fig') 
+% end
 
-figphi=figure;
-figphi.Name='Phi';
-hplot=contourf(datastack.X,datastack.Y,datastack.Phirefl*180/pi(),45,'LineColor','None');
-title('Registered EBSD map')
+figGND=figure;
+figGND.Name='GND Before map';
+hplot=contourf(datastack.X,datastack.Y,log10(datastack.GNDaveragebefore),45,'LineColor','None');
+title('Registered Before GND map')
 xlabel('\mum')
 ylabel('\mum')
 axis image
-zlim([0 90])
+%zlim([0 90])
+colormap spring
 c=colorbar;
-c.Label.String = 'Declination angle /^{o}';
-figname=['Phi Figure paper' ebsdname(1:(max(size(ebsdname)-4)))];
+c.Label.String = 'Log base 10 GND total';
+figname=['GND Before paper' xebsdnamebefore(1:(max(size(xebsdnamebefore)-4)))];
 print(fullfile(resultsdir, figname),'-dpng',resolution)
 if saveasfigq==1 
     saveas(gcf,fullfile(resultsdir, figname),'fig') 
 end
 
 
-figbc=figure;
-figbc.Name='BC';
-hplot=contourf(datastack.X,datastack.Y,datastack.BCebsd,45,'LineColor','None');
-title('Registered EBSD map - BC')
+figGND=figure;
+figGND.Name='GND After map';
+hplot=contourf(datastack.X,datastack.Y,log10(datastack.GNDaverageafter),45,'LineColor','None');
+title('Registered After GND map')
 xlabel('\mum')
 ylabel('\mum')
 axis image
+colormap spring
 c=colorbar;
-c.Label.String = 'BC /arb units';
-figname=['BC Figure paper' ebsdname(1:(max(size(ebsdname)-4)))];
+c.Label.String = 'Log base 10 GND total';
+figname=['GND After paper' xebsdnameafter(1:(max(size(xebsdnameafter)-4)))];
 print(fullfile(resultsdir, figname),'-dpng',resolution)
 if saveasfigq==1 
     saveas(gcf,fullfile(resultsdir, figname),'fig') 
 end
 
 
-figphiVH=figure;
-figphiVH.Name='Phi vs H';
-scatter(datastack.Phirefl(:)*180/pi,datastack.H(:),'x')
-title('Declination angle against measured nanoindentation hardness')
-xlabel('Declination angle /^{o}')
-ylabel('Hardness /GPa')
-ylim([nanmean(datastack.H(:))-5*nanstd(datastack.H(:)) nanmean(datastack.H(:))+5*nanstd(datastack.H(:))])
-xlim([0 90])
-figname=['Phi vs H Figure ' ebsdname(1:(max(size(ebsdname)-4)))];
-print(fullfile(resultsdir, figname),'-dpng',resolution)
-if saveasfigq==1 
-    saveas(gcf,fullfile(resultsdir, figname),'fig') 
-end
+
+% figbc=figure;
+% figbc.Name='BC';
+% hplot=contourf(datastack.X,datastack.Y,datastack.BCebsd,45,'LineColor','None');
+% title('Registered EBSD map - BC')
+% xlabel('\mum')
+% ylabel('\mum')
+% axis image
+% c=colorbar;
+% c.Label.String = 'BC /arb units';
+% figname=['BC Figure paper' ebsdname(1:(max(size(ebsdname)-4)))];
+% print(fullfile(resultsdir, figname),'-dpng',resolution)
+% if saveasfigq==1 
+%     saveas(gcf,fullfile(resultsdir, figname),'fig') 
+% end
+% 
+% 
+% figphiVH=figure;
+% figphiVH.Name='Phi vs H';
+% scatter(datastack.Phirefl(:)*180/pi,datastack.H(:),'x')
+% title('Declination angle against measured nanoindentation hardness')
+% xlabel('Declination angle /^{o}')
+% ylabel('Hardness /GPa')
+% ylim([nanmean(datastack.H(:))-5*nanstd(datastack.H(:)) nanmean(datastack.H(:))+5*nanstd(datastack.H(:))])
+% xlim([0 90])
+% figname=['Phi vs H Figure ' ebsdname(1:(max(size(ebsdname)-4)))];
+% print(fullfile(resultsdir, figname),'-dpng',resolution)
+% if saveasfigq==1 
+%     saveas(gcf,fullfile(resultsdir, figname),'fig') 
+% end
 
 %{
 figphiVM=figure;

@@ -20,6 +20,7 @@ function [ CS] = f_phaseTranslate(ebsd)
     'Chromium - alpha' ,  'Chromium';
     'Copper', 'Copper';
     'Iron', 'Iron-alpha';
+    'Iron-alpha','Fe-Iron-alpha'
     'Austenite, fcc (New)', 'Iron-Austenite';
     'Ferrite, bcc (New)', 'Iron-alpha';
     'Iron-beta', 'Iron-beta';
@@ -76,3 +77,4 @@ end
 %}
 
 end
+

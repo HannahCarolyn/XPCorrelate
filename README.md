@@ -1,4 +1,17 @@
- 
+#XPCorrelate updated for Premier input and HR-EBSD.
+
+Warning this branch has been altered such that some of the original functionallity of the code may be buggy.
+
+The input deck has been altered to allow the import of premier and HR-EBSD data.
+
+Two additional functions has been written which allow for the correlating of EBSD maps before and after indenting. Then correlating these reference frames with nanoindentation data. The details of this can be found in my Part II thesis. These functions are called f_fixGNDdistortion and f_xebsdcorrelate which have been annotated with instructions on how to add extra xEBSDv3 datastreams.
+
+Please note that you are careful when picking the orientation between the EBSD after map and nanoindentation as they will not be orientated in the same way. It is likely it will be a 180 degrees rotation. 
+
+The in the input deck you can change the size of the sampling boxes. This is calculated by (spacing of nanoindentation*fractionofspacing/stepsize) this will be rounded to an integar number of spacing points which is the same in x and y direction to make a box.
+
+Note lastly, the datastack will not automatically save.
+
 # XPCorrelate
 Code to register and analyse multidimensional maps e.g. nanoindentation maps vs EBSD, etc.
 The default setup is to analyse Nanoindentation mapping against EBSD data, and if desired, EPMA data.
